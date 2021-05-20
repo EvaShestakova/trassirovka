@@ -182,13 +182,17 @@ CImg<unsigned char> Screen::Image(vector<figure*> figures)
     b[0] = cam[0];
     b[1] = cam[1];
     b[2] = cam[2];
-#pragma omp parallel for
+    double x0 =0;
+    double y0 =0;
+    double z0 = 0;
+#pragma omp parallel for private(r,t,temp,x0,y0,z0,a,c,n,l,D,tempcolor,color)
    for (int i = 0; i < hp; ++i) {
         for (int j = 0; j < wp; ++j) {
+            t = 0;
             for (int m = 0; m < figures.size(); ++m) {
-                    double x0 = (*(figures[m])).c[0];
-                    double y0 = (*(figures[m])).c[1];
-                    double z0 = (*(figures[m])).c[2];
+                    x0 = (*(figures[m])).c[0];
+                    y0 = (*(figures[m])).c[1];
+                    z0 = (*(figures[m])).c[2];
                     for (int k = 0; k < 3; ++k) {
                         a[k] = PC[i][j][k];
                         c[k] = a[k] - b[k];
